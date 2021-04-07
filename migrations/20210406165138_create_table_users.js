@@ -1,9 +1,15 @@
-exports.up = (knex) => knex.schema.createTable('users', (table) => {
+const { onUpdateTrigger } = require("../knexfile");
+
+exports.up = async (knex) => {
+  knex.schema.createTable('users', (table) => {
     table.increments('id');
     table.string('username', 100).unique().notNullable();
 
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());
-  });
+  }).then(() => {
+    knex.raw(onUpdateTrigger('users'));
+  })
+}
 
-exports.down = (knex) => knex.schema.dropTable('users');
+exports.down = async (knex) => knex.schema.dropTable('users');

@@ -2,11 +2,17 @@
 
 module.exports = {
   development: {
-    client: 'mysql2',
+    client: 'pg',
     connection: {
       database: 'knex_test',
-      user:     'root',
-      password: 'Alameda@2081'
+      user: 'postgres',
+      password: 'postgres'
     }
-  }
+  },
+  onUpdateTrigger: (table) => `
+    CREATE TRIGGER ${table}_updated_at
+    BEFORE UPDATE ON ${table}
+    FOR EACH ROW
+    EXECUTE PROCEDURE on_update_timestamp();
+  `
 };
