@@ -3,7 +3,7 @@ PONTOS IMPORTANTES:
 
 > > > KNEX
 
-npx knex init
+npx knex init (to create knexfile.js)
 
 npx knex migrate:make <migration-name>  
 npx knex migrate:latest  
